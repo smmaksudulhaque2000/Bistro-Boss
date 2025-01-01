@@ -7,7 +7,7 @@ const NavBar = () => {
       <li>
         <details>
           <summary>Parent</summary>
-          <ul className="p-2">
+          <ul className="p-2 bg-black">
             <li><a>M 1</a></li>
             <li><a>M 2</a></li>
           </ul>
@@ -16,7 +16,7 @@ const NavBar = () => {
       <li><a>Item 3</a></li>
     </>
     return (
-        <div className="navbar bg-base-100">
+        <div className="navbar bg-slate-700 absolute z-10 opacity-40 max-w-7xl text-white">
   <div className="navbar-start">
     <div className="dropdown">
       <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -35,14 +35,14 @@ const NavBar = () => {
       </div>
       <ul
         tabIndex={0}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        className="menu menu-sm dropdown-content bg-slate-700 rounded-box z-[1] mt-3 w-52 p-2 shadow">
         {navOptions}
       </ul>
     </div>
-    <a className="btn btn-ghost text-xl">Bistro Boss</a>
+    <a className="btn btn-ghost text-xl ">Bistro Boss</a>
   </div>
   <div className="navbar-center hidden lg:flex">
-    <ul className="menu menu-horizontal px-1">
+    <ul className="menu menu-horizontal px-1 z-20">
       {navOptions}
     </ul>
   </div>
