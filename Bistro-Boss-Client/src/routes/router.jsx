@@ -3,7 +3,8 @@ import {
     RouterProvider,
   } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
-import Home from "../page/Home";
+import Home from "../page/home/Home";
+
 
 
 
