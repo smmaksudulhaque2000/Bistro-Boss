@@ -1,19 +1,21 @@
 import React from 'react';
+import { Link } from "react-router";
 
 const NavBar = () => {
 
     const navOptions = <>
-    <li><a>Item 1</a></li>
+    <li><Link to={'/'}>Home</Link></li>
+    <li><Link to={'/menu'}>Menu</Link></li>
       <li>
         <details>
-          <summary>Parent</summary>
+          <summary>CONTACT Us</summary>
           <ul className="p-2 bg-black">
-            <li><a>M 1</a></li>
-            <li><a>M 2</a></li>
+            <li><a>Our Menu</a></li>
+            <li><a>Our Shop</a></li>
           </ul>
         </details>
       </li>
-      <li><a>Item 3</a></li>
+      <li><a>DASHBOARD</a></li>
     </>
     return (
         <div className="navbar bg-slate-700 absolute z-10 opacity-40 max-w-7xl text-white">
@@ -39,7 +41,10 @@ const NavBar = () => {
         {navOptions}
       </ul>
     </div>
-    <a className="btn btn-ghost text-xl ">Bistro Boss</a>
+    <Link to={'/'} className='px-5'>
+    <a className="text-xl ">Bistro Boss</a>
+    <p>Restaurant</p>
+    </Link>
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1 z-20">
