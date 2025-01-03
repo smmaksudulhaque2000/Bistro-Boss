@@ -6,16 +6,21 @@ import Featured from './Featured';
 import Testimonials from './Testimonials';
 import About from './About';
 import Cart from './Cart';
+import useMenu from '../../hooks/useMenu';
 
 
 const Home = () => {
+    const [menu] = useMenu();
+    
+    const popular = menu.filter((item) => item.category === "popular");
+
     return (
         <div>
             <Banner></Banner>
             <FoodCategory></FoodCategory>
             <About></About>
             <Cart></Cart>
-            <PopularMenu></PopularMenu>
+            <PopularMenu items={popular}></PopularMenu>
             <Featured></Featured>
             <Testimonials></Testimonials>
         </div>
