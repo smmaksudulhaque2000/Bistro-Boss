@@ -5,10 +5,16 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import 'react-tabs/style/react-tabs.css';
 import useMenu from "../../hooks/useMenu";
 import FoodCard from "../../components/FoodCard";
+import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const Order = () => {
-    const [menu] = useMenu();
+  const [menu] = useMenu();
   
+  const categorys = ["salad", "drinks", "dessert", "pizza", "soup"];
+  const {category} = useParams();
+  const initialIndex = categorys.indexOf(category);
+  const [tabIndex, setTabIndex] = useState(initialIndex);
   
   const salad = menu.filter((item) => item.category === "salad");
   const drinks = menu.filter((item) => item.category === "drinks");
@@ -16,12 +22,12 @@ const Order = () => {
   const pizza = menu.filter((item) => item.category === "pizza");
   const soup = menu.filter((item) => item.category === "soup");
 
-  
-
-  const [tabIndex, setTabIndex] = useState(0);
 
   return (
     <div>
+      <Helmet>
+        <title>Order</title>
+      </Helmet>
       <Cover
         image={orderCover}
         title={"OUR SHOP"}

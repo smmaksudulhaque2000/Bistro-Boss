@@ -8,6 +8,7 @@ import pizzaimg from "../../assets/menu/pizza-bg.jpg";
 import soupimg from "../../assets/menu/soup-bg.jpg";
 import PopularMenu from "../home/PopularMenu";
 import useMenu from "../../hooks/useMenu";
+import { Link } from "react-router-dom";
 
 
 
@@ -32,35 +33,16 @@ const Menu = () => {
         title={"OUR MENU"}
         discription={"Would you like to try a dish?"}
       ></Cover>
-      <PopularMenu items={salad} subTitle={"---Don't miss---"} heading={"TODAY'S OFFER"}></PopularMenu>
 
-      <Cover
-        image={dessertimg}
-        title={"DESSERTS"}
-        discription={"Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."}
-      ></Cover>
-      <PopularMenu items={dessert} ></PopularMenu>
+      <PopularMenu items={salad}  title={"salad"}  subTitle={"---Don't miss---"} heading={"TODAY'S OFFER"}></PopularMenu>
+      
+      <PopularMenu items={dessert} image={dessertimg} title={"dessert"} discription={"Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."}></PopularMenu>
 
-      <Cover
-        image={pizzaimg}
-        title={"PIZZA"}
-        discription={"Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."}
-      ></Cover>
-      <PopularMenu items={pizza} ></PopularMenu>
+      <PopularMenu items={pizza} image={pizzaimg} title={"pizza"} discription={"Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."}></PopularMenu>
 
-      <Cover
-        image={image}
-        title={"DRINKS"}
-        discription={"Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."}
-      ></Cover>
-      <PopularMenu items={drinks} ></PopularMenu>
+      <PopularMenu items={drinks} image={image} title={"drinks"} discription={"Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."}></PopularMenu>
 
-      <Cover
-        image={soupimg}
-        title={"SOUPS"}
-        discription={"Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."}
-      ></Cover>
-      <PopularMenu items={soup} ></PopularMenu>
+      <PopularMenu items={soup} image={soupimg} title={"soup"} discription={"Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."}></PopularMenu>
 
     </div>
   );

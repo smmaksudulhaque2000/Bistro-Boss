@@ -15,7 +15,7 @@ const NavBar = () => {
           </ul>
         </details>
       </li>
-      <li><Link to={'/order'}>Order</Link></li>
+      <li><Link to={'/order/salad'}>Order</Link></li>
     </>
     return (
         <div className="navbar bg-slate-700 absolute z-10 opacity-40 max-w-7xl text-white">
