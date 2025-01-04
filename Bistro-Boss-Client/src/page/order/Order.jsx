@@ -10,18 +10,23 @@ import { Helmet } from "react-helmet";
 
 const Order = () => {
   const [menu] = useMenu();
-  
+
   const categorys = ["salad", "drinks", "dessert", "pizza", "soup"];
-  const {category} = useParams();
+  const { category } = useParams();
   const initialIndex = categorys.indexOf(category);
   const [tabIndex, setTabIndex] = useState(initialIndex);
-  
-  const salad = menu.filter((item) => item.category === "salad");
-  const drinks = menu.filter((item) => item.category === "drinks");
-  const dessert = menu.filter((item) => item.category === "dessert");
-  const pizza = menu.filter((item) => item.category === "pizza");
-  const soup = menu.filter((item) => item.category === "soup");
 
+  const filterByCategory = (categoryName) => {
+    return menu.filter((item) => item.category === categoryName);
+  };
+
+  const categoriesData = {
+    salad: filterByCategory("salad"),
+    drinks: filterByCategory("drinks"),
+    dessert: filterByCategory("dessert"),
+    pizza: filterByCategory("pizza"),
+    soup: filterByCategory("soup"),
+  };
 
   return (
     <div>
@@ -35,27 +40,16 @@ const Order = () => {
       ></Cover>
       <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
         <TabList>
-          <Tab>Salad</Tab>
-          <Tab>Drinks</Tab>
-          <Tab>Dessert</Tab>
-          <Tab>Pizza</Tab>
-          <Tab>Soup</Tab>
+          {categorys.map((category, idx) => (
+            <Tab key={idx}>{category.charAt(0).toUpperCase() + category.slice(1)}</Tab>
+          ))}
         </TabList>
-        <TabPanel>
-            <FoodCard items={salad}></FoodCard>
-        </TabPanel>
-        <TabPanel>
-        <FoodCard items={drinks}></FoodCard>
-        </TabPanel>
-        <TabPanel>
-        <FoodCard items={dessert}></FoodCard>
-        </TabPanel>
-        <TabPanel>
-        <FoodCard items={pizza}></FoodCard>
-        </TabPanel>
-        <TabPanel>
-        <FoodCard items={soup}></FoodCard>
-        </TabPanel>
+
+        {categorys.map((category, idx) => (
+          <TabPanel key={idx}>
+            <FoodCard items={categoriesData[category]}></FoodCard>
+          </TabPanel>
+        ))}
       </Tabs>
     </div>
   );
