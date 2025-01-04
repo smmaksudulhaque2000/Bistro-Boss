@@ -10,7 +10,7 @@ const PopularMenu = ({items, subTitle, heading, image, title, discription} = [])
     
         
     return (
-        <div className='mb-20 flex flex-col items-center gap-5'>
+        <div className='mb-20 flex flex-col items-center gap-5 border border-red-600'>
             {
                 subTitle && heading && <SectionTitle subTitle={subTitle} heading={heading}></SectionTitle>
             }

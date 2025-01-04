@@ -6,12 +6,13 @@ const Cover = ({ image, title, discription }) => {
     <Parallax
       blur={{ min: -50, max: 50 }}
       bgImage={image}
-      bgImageAlt="the dog"
+      bgImageAlt="Image"
       strength={-200}
+      className="w-full"
     >
-      <div>
+      
         <div
-          className="hero h-[700px] p-56"
+          className="hero w-full h-[700px] p-56"
         >
           <div className="hero-overlay bg-opacity-60"></div>
           <div className="hero-content text-neutral-content text-center">
@@ -21,7 +22,7 @@ const Cover = ({ image, title, discription }) => {
             </div>
           </div>
         </div>
-      </div>
+      
     </Parallax>
   );
 };
