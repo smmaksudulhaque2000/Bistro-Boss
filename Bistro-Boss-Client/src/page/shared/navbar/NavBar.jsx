@@ -5,17 +5,17 @@ const NavBar = () => {
 
     const navOptions = <>
     <li><Link to={'/'}>Home</Link></li>
-    <li><Link to={'/menu'}>Menu</Link></li>
+    <li><Link to={'/menu'}>Our Menu</Link></li>
+    <li><Link to={'/order/salad'}>Our Shop</Link></li>
       <li>
         <details>
           <summary>CONTACT Us</summary>
           <ul className="p-2 bg-black">
-            <li><a>Our Menu</a></li>
-            <li><a>Our Shop</a></li>
+            <li><a>DASHBOARD</a></li>
+            <li><a>Order</a></li>
           </ul>
         </details>
       </li>
-      <li><Link to={'/order/salad'}>Order</Link></li>
     </>
     return (
         <div className="navbar bg-slate-700 absolute z-10 opacity-40 max-w-7xl text-white">
