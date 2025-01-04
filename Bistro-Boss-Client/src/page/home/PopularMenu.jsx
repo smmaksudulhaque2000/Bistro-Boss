@@ -1,13 +1,17 @@
 import SectionTitle from '../../components/SectionTitle';
 import MenuItems from '../../components/MenuItems';
 
-const PopularMenu = ({items} = []) => {
+const PopularMenu = ({items, subTitle, heading} = []) => {
+    
     
     
         
     return (
         <div className='mb-20 flex flex-col items-center gap-5'>
-            <SectionTitle subTitle={"---Check it out---"} heading={"FROM OUR MENU"}></SectionTitle>
+            {
+                subTitle && heading && <SectionTitle subTitle={subTitle} heading={heading}></SectionTitle>
+            }
+            
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
                 {
                     items.map( item => <MenuItems key={item._id} item={item}></MenuItems>)

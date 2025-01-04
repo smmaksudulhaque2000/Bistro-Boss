@@ -20,7 +20,7 @@ const Home = () => {
             <FoodCategory></FoodCategory>
             <About></About>
             <Cart></Cart>
-            <PopularMenu items={popular}></PopularMenu>
+            <PopularMenu items={popular} subTitle={"---Check it out---"} heading={"FROM OUR MENU"}></PopularMenu>
             <Featured></Featured>
             <Testimonials></Testimonials>
         </div>
