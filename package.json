@@ -6,6 +6,7 @@
     "react-parallax": "^3.5.1",
     "react-parallax-tilt": "^1.7.269",
     "react-responsive-carousel": "^3.2.23",
+    "react-tabs": "^6.1.0",
     "swiper": "^11.1.15"
   }
 }
