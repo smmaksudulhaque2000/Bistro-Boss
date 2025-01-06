@@ -11,7 +11,7 @@ const AuthProvider = ({children}) => {
     const [loading, setLoading] = useState(true);
 
     //Register
-    const creatUser = (email, password) => {
+    const signUp = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
     }
@@ -41,7 +41,7 @@ const AuthProvider = ({children}) => {
     const authInfo = {
         user,
         loading,
-        creatUser,
+        signUp,
         signIn,
         logOut
     }
