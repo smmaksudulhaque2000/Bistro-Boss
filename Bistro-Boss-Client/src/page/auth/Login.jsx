@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Lottie from 'lottie-react';
 import animationData from '../../assets/lottie/Animation1.json'; // এখানে Lottie ফাইলটির পাথ দিন
-
+import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 
 const Login = () => {
+  useEffect(() => {
+    loadCaptchaEnginge(6); // ক্যাপচা ইনপুট লোড করতে
+  }, []);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [captchaValid, setCaptchaValid] = useState(false);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -15,11 +20,22 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
+  const handleCaptchaChange = () => {
+    const captchaValue = document.getElementById('captchaInput').value;
+    // ক্যাপচা যাচাই করা
+    const isValid = validateCaptcha(captchaValue);
+    setCaptchaValid(isValid); // সঠিক হলে captchaValid হবে true
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here (e.g., API call)
-    console.log('Email:', email);
-    console.log('Password:', password);
+    if (captchaValid) {
+      // Handle login logic here (e.g., API call)
+      console.log('Email:', email);
+      console.log('Password:', password);
+    } else {
+      console.log('Captcha is incorrect');
+    }
   };
 
   return (
@@ -56,11 +72,28 @@ const Login = () => {
         <div className="text-right">
           <a href="#" className="text-sm text-blue-500 hover:underline">Forgot Password?</a>
         </div>
+
+        {/* Captcha */}
+        <div className="flex flex-col">
+          <label htmlFor="captcha" className="text-sm font-semibold">Captcha:</label>
+          <LoadCanvasTemplate /> {/* ক্যাপচা ক্যানভাস */}
+          <input
+            type="text"
+            id="captchaInput"
+            className="p-3 border border-gray-300 rounded-md mt-2"
+            placeholder="Enter captcha"
+            onBlur={handleCaptchaChange} // ক্যাপচা ইনপুট শেষ হলে যাচাই করা
+            required
+          />
+        </div>
+
         <div>
-        <input
-          type="submit"
-          value="Login"
-          className="w-full py-3 mt-4 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600"
+          <input
+            type="submit"
+            value="Login"
+            className={`w-full py-3 mt-4 font-semibold rounded-md transition-colors duration-300 
+              ${captchaValid ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
+            disabled={!captchaValid} // ক্যাপচা সঠিক না হলে বাটন ডিজেবল থাকবে
           />
         </div>
       </form>
