@@ -11,8 +11,8 @@ const NavBar = () => {
         <details>
           <summary>CONTACT Us</summary>
           <ul className="p-2 bg-black">
-            <li><a>DASHBOARD</a></li>
-            <li><a>Order</a></li>
+          <li><Link to={'/login'}>Login</Link></li>
+          <li><Link to={'/'}>Home</Link></li>
           </ul>
         </details>
       </li>
