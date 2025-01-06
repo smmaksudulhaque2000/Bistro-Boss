@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Lottie from 'lottie-react';
 import animationData from '../../assets/lottie/Animation1.json'; // এখানে Lottie ফাইলটির পাথ দিন
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+import { AuthContext } from '../../providers/AuthProvider';
 
 const Login = () => {
   useEffect(() => {
@@ -11,6 +12,8 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [captchaValid, setCaptchaValid] = useState(false);
+
+  const {signIn} = useContext(AuthContext);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -30,9 +33,11 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (captchaValid) {
-      // Handle login logic here (e.g., API call)
-      console.log('Email:', email);
-      console.log('Password:', password);
+      signIn(email, password)
+      .then(result => {
+        const user = result.user;
+        console.log(user);
+      })
     } else {
       console.log('Captcha is incorrect');
     }
