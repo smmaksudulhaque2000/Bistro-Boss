@@ -1,18 +1,34 @@
 import React, { useContext } from "react";
 import { Link } from "react-router";
+import Swal from "sweetalert2";
 import { AuthContext } from "../../../providers/AuthProvider";
 
 const NavBar = () => {
-  const {user, logOut} = useContext(AuthContext);
-  console.log(user);
-  
+  const { user, logOut } = useContext(AuthContext);
 
   const handleLogout = () => {
-    logOut()
-    .then(() => {})
-    .catch(error => console.log(error))
-  }
-
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, log me out!",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOut()
+          .then(() => {
+            Swal.fire("Logged Out!", "You have been logged out successfully.", "success");
+          })
+          .catch((error) => {
+            Swal.fire("Error!", "Something went wrong. Please try again.", "error");
+            console.log(error);
+          });
+      }
+    });
+  };
 
   const navOptions = (
     <>
@@ -28,28 +44,32 @@ const NavBar = () => {
       <li>
         <Link to={"/dashboard"}>DASHBOARD</Link>
       </li>
-      {
-        user ? <>
-        <button onClick={handleLogout} className="btn">LogOut</button>        
-        </> : 
+      {user ? (
         <>
-        <li>
-        <details>
-          <summary>User</summary>
-          <ul className="p-2 bg-black">
-            <li>
-              <Link to={"/login"}>Login</Link>
-            </li>
-            <li>
-              <Link to={"/signup"}>Register</Link>
-            </li>
-          </ul>
-        </details>
-      </li>
+          <button onClick={handleLogout} className="btn">
+            LogOut
+          </button>
         </>
-      }
+      ) : (
+        <>
+          <li>
+            <details>
+              <summary>User</summary>
+              <ul className="p-2 bg-black">
+                <li>
+                  <Link to={"/login"}>Login</Link>
+                </li>
+                <li>
+                  <Link to={"/signup"}>Register</Link>
+                </li>
+              </ul>
+            </details>
+          </li>
+        </>
+      )}
     </>
   );
+
   return (
     <div className="navbar bg-slate-700 absolute z-10 opacity-40 max-w-7xl text-white">
       <div className="navbar-start">

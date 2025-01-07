@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import Swal from 'sweetalert2'; // SweetAlert2 ইম্পোর্ট
 import bg from '../../assets/reservation/wood-grain-pattern-gray1x.png';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../providers/AuthProvider';
@@ -12,7 +13,7 @@ const SignUp = () => {
     const navigate = useNavigate();
 
     const [name, setName] = useState('');
-    const [photoURL, setPhotoURL] = useState('')
+    const [photoURL, setPhotoURL] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [captchaValid, setCaptchaValid] = useState(false);
@@ -37,14 +38,31 @@ const SignUp = () => {
                 .then((result) => {
                     const user = result.user;
                     console.log('User signed up:', user);
-                    updateUserProfile(name, photoURL);
-                    navigate('/')
+
+                    // প্রোফাইল আপডেট
+                    updateUserProfile(name, photoURL).then(() => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Registration Successful',
+                            text: 'Your account has been created successfully!',
+                        });
+                        navigate('/');
+                    });
                 })
                 .catch((error) => {
                     console.error('Sign-up error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Registration Failed',
+                        text: error.message, // এরর মেসেজ দেখাবে
+                    });
                 });
         } else {
-            console.log('Captcha is incorrect');
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Captcha',
+                text: 'Please enter the correct captcha!',
+            });
         }
     };
 
@@ -86,7 +104,7 @@ const SignUp = () => {
                             <label className="block text-sm font-medium text-gray-700 mb-1">Photo URL</label>
                             <input
                                 type="text"
-                                placeholder="photoURL"
+                                placeholder="Photo URL"
                                 value={photoURL}
                                 onChange={handlePhotoChange}
                                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"

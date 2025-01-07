@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Lottie from 'lottie-react';
-import animationData from '../../assets/lottie/Animation1.json'; // এখানে Lottie ফাইলটির পাথ দিন
-import bg from '../../assets/reservation/wood-grain-pattern-gray1x.png'; // ব্যাকগ্রাউন্ড ইমেজ
+import Swal from 'sweetalert2'; // SweetAlert2 ইমপোর্ট
+import animationData from '../../assets/lottie/Animation1.json';
+import bg from '../../assets/reservation/wood-grain-pattern-gray1x.png';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../providers/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   useEffect(() => {
-    loadCaptchaEnginge(6); // ক্যাপচা ইনপুট লোড করতে
+    loadCaptchaEnginge(6);
   }, []);
 
   const [email, setEmail] = useState('');
@@ -19,7 +20,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || '/';
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -31,20 +32,42 @@ const Login = () => {
 
   const handleCaptchaChange = () => {
     const captchaValue = document.getElementById('captchaInput').value;
-    const isValid = validateCaptcha(captchaValue); // ক্যাপচা যাচাই করা
-    setCaptchaValid(isValid); // সঠিক হলে captchaValid হবে true
+    const isValid = validateCaptcha(captchaValue);
+    setCaptchaValid(isValid);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (captchaValid) {
-      signIn(email, password).then((result) => {
-        const user = result.user;
-        console.log(user);
-        navigate(from, {replace: true});
-      });
+      signIn(email, password)
+        .then((result) => {
+          const user = result.user;
+          console.log(user);
+          // সফল লগইন SweetAlert
+          Swal.fire({
+            icon: 'success',
+            title: 'Login Successful!',
+            text: 'Welcome back!',
+          }).then(() => {
+            navigate(from, { replace: true });
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+          // ত্রুটি হলে SweetAlert
+          Swal.fire({
+            icon: 'error',
+            title: 'Login Failed!',
+            text: error.message,
+          });
+        });
     } else {
-      console.log('Captcha is incorrect');
+      // ক্যাপচা ত্রুটি SweetAlert
+      Swal.fire({
+        icon: 'warning',
+        title: 'Captcha Incorrect!',
+        text: 'Please enter the correct captcha.',
+      });
     }
   };
 
@@ -57,12 +80,13 @@ const Login = () => {
         backgroundPosition: 'center',
       }}
     >
-      <div className="flex bg-white shadow-2xl rounded-lg overflow-hidden max-w-4xl"
-      style={{
-        backgroundImage: `url(${bg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
+      <div
+        className="flex bg-white shadow-2xl rounded-lg overflow-hidden max-w-4xl"
+        style={{
+          backgroundImage: `url(${bg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
       >
         {/* Lottie Animation Section */}
         <div className="w-1/2 p-6 flex items-center justify-center">
@@ -110,13 +134,13 @@ const Login = () => {
               <label htmlFor="captcha" className="text-sm font-semibold">
                 Captcha:
               </label>
-              <LoadCanvasTemplate /> {/* ক্যাপচা ক্যানভাস */}
+              <LoadCanvasTemplate />
               <input
                 type="text"
                 id="captchaInput"
                 className="p-3 border border-gray-300 rounded-md mt-2"
                 placeholder="Enter captcha"
-                onBlur={handleCaptchaChange} // ক্যাপচা ইনপুট শেষ হলে যাচাই করা
+                onBlur={handleCaptchaChange}
                 required
               />
             </div>
@@ -126,15 +150,19 @@ const Login = () => {
                 type="submit"
                 value="Login"
                 className={`w-full py-3 mt-4 font-semibold rounded-md transition-colors duration-300 
-                  ${captchaValid ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
-                disabled={!captchaValid} // ক্যাপচা সঠিক না হলে বাটন ডিজেবল থাকবে
+                  ${
+                    captchaValid
+                      ? 'bg-blue-500 text-white hover:bg-blue-600'
+                      : 'bg-gray-400 text-gray-700 cursor-not-allowed'
+                  }`}
+                disabled={!captchaValid}
               />
             </div>
           </form>
           <div className="text-center mt-4">
             <p className="text-sm">
               New here?{' '}
-              <Link to={"/signup"} className="text-blue-500 hover:underline">
+              <Link to={'/signup'} className="text-blue-500 hover:underline">
                 Create a New Account
               </Link>
             </p>
