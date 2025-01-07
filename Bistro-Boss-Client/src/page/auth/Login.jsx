@@ -4,7 +4,7 @@ import animationData from '../../assets/lottie/Animation1.json'; // এখান
 import bg from '../../assets/reservation/wood-grain-pattern-gray1x.png'; // ব্যাকগ্রাউন্ড ইমেজ
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../providers/AuthProvider';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   useEffect(() => {
@@ -16,6 +16,10 @@ const Login = () => {
   const [captchaValid, setCaptchaValid] = useState(false);
 
   const { signIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -37,6 +41,7 @@ const Login = () => {
       signIn(email, password).then((result) => {
         const user = result.user;
         console.log(user);
+        navigate(from, {replace: true});
       });
     } else {
       console.log('Captcha is incorrect');

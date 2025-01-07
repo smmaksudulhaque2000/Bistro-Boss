@@ -2,21 +2,25 @@ import React, { useContext, useEffect, useState } from 'react';
 import bg from '../../assets/reservation/wood-grain-pattern-gray1x.png';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../providers/AuthProvider';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     useEffect(() => {
         loadCaptchaEnginge(6); // ক্যাপচা লোড
     }, []);
 
+    const navigate = useNavigate();
+
     const [name, setName] = useState('');
+    const [photoURL, setPhotoURL] = useState('')
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [captchaValid, setCaptchaValid] = useState(false);
 
-    const { signUp } = useContext(AuthContext);
+    const { signUp, updateUserProfile } = useContext(AuthContext);
 
     const handleNameChange = (e) => setName(e.target.value);
+    const handlePhotoChange = (e) => setPhotoURL(e.target.value);
     const handleEmailChange = (e) => setEmail(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
 
@@ -29,10 +33,12 @@ const SignUp = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (captchaValid) {
-            signUp(email, password, name)
+            signUp(email, password)
                 .then((result) => {
                     const user = result.user;
                     console.log('User signed up:', user);
+                    updateUserProfile(name, photoURL);
+                    navigate('/')
                 })
                 .catch((error) => {
                     console.error('Sign-up error:', error);
@@ -72,6 +78,17 @@ const SignUp = () => {
                                 placeholder="Type here"
                                 value={name}
                                 onChange={handleNameChange}
+                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Photo URL</label>
+                            <input
+                                type="text"
+                                placeholder="photoURL"
+                                value={photoURL}
+                                onChange={handlePhotoChange}
                                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
                                 required
                             />
@@ -130,7 +147,7 @@ const SignUp = () => {
 
                 {/* Right Side - Illustration */}
                 <div className="w-1/2 bg-yellow-50 flex items-center justify-center">
-                    <img src={bg} alt="Sign Up Illustration" className="w-3/4" />
+                    <img src={photoURL || bg} alt="Sign Up Illustration" className="w-3/4" />
                 </div>
             </div>
         </div>
