@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../../providers/AuthProvider";
+import { TiShoppingCart } from "react-icons/ti";
 
 const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -20,10 +21,18 @@ const NavBar = () => {
       if (result.isConfirmed) {
         logOut()
           .then(() => {
-            Swal.fire("Logged Out!", "You have been logged out successfully.", "success");
+            Swal.fire(
+              "Logged Out!",
+              "You have been logged out successfully.",
+              "success"
+            );
           })
           .catch((error) => {
-            Swal.fire("Error!", "Something went wrong. Please try again.", "error");
+            Swal.fire(
+              "Error!",
+              "Something went wrong. Please try again.",
+              "error"
+            );
             console.log(error);
           });
       }
@@ -43,6 +52,14 @@ const NavBar = () => {
       </li>
       <li>
         <Link to={"/dashboard"}>DASHBOARD</Link>
+      </li>
+      <li>
+        <Link to={"/"}>
+          <button className="btn">
+          <TiShoppingCart />
+            <div className="badge badge-secondary">+0</div>
+          </button>
+        </Link>
       </li>
       {user ? (
         <>

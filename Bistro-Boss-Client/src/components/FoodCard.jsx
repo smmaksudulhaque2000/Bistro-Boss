@@ -1,6 +1,12 @@
 import React, { useState } from "react";
+import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 const FoodCard = ({ items }) => {
+  const { user } = useAuth();
+  const navigate = useNavigate()
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
@@ -22,6 +28,27 @@ const FoodCard = ({ items }) => {
     }
   };
 
+  const handleAddToCart = (food) => {
+    if (user && user.email) {
+      console.log(user.email);
+    } else {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/login')
+        }
+      });
+    }
+    
+  }
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentItems = items.slice(startIndex, endIndex);
@@ -38,7 +65,7 @@ const FoodCard = ({ items }) => {
               <h2 className="card-title">{item.name}</h2>
               <p>{item.recipe}</p>
               <div className="card-actions justify-center">
-                <button className="btn btn-outline border-0 border-b-4">
+                <button onClick={() => handleAddToCart(item)} className="btn btn-outline border-0 border-b-4">
                   Buy Now
                 </button>
               </div>
