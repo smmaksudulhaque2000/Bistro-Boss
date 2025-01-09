@@ -3,9 +3,11 @@ import { Link } from "react-router";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../../providers/AuthProvider";
 import { TiShoppingCart } from "react-icons/ti";
+import useCart from "../../../hooks/useCart";
 
 const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [cart] = useCart();
 
   const handleLogout = () => {
     Swal.fire({
@@ -57,7 +59,7 @@ const NavBar = () => {
         <Link to={"/"}>
           <button className="btn">
           <TiShoppingCart />
-            <div className="badge badge-secondary">+0</div>
+            <div className="badge badge-secondary">+{cart.length}</div>
           </button>
         </Link>
       </li>

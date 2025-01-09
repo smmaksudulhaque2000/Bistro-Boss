@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import axios from "axios";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+
 
 const FoodCard = ({ items }) => {
 
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const axiosSecure = useAxiosSecure();
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -42,8 +44,8 @@ const FoodCard = ({ items }) => {
         image,
         price,
       }
-      axios.post('http://localhost:5000/carts', cartItem)
-      .then(res=> {
+      axiosSecure.post('/carts', cartItem)
+      .then(res => {
         if (res.data.insertedId) {
           Swal.fire({
             position: "top-end",
