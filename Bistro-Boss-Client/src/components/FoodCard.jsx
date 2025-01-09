@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const FoodCard = ({ items }) => {
+
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,8 +32,28 @@ const FoodCard = ({ items }) => {
   };
 
   const handleAddToCart = (food) => {
+
     if (user && user.email) {
-      console.log(user.email);
+      const {name, image, price, recipe, _id} = food;
+      const cartItem = {
+        menuId: _id,
+        email: user.email,
+        name,
+        image,
+        price,
+      }
+      axios.post('http://localhost:5000/carts', cartItem)
+      .then(res=> {
+        if (res.data.insertedId) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: `${name} Successfully Added`,
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+      })
     } else {
       Swal.fire({
         title: "Are you sure?",

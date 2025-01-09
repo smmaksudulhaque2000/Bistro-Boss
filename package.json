@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@smastrom/react-rating": "^1.5.0",
+    "axios": "^1.7.9",
     "firebase": "^11.1.0",
     "lottie-react": "^2.4.0",
     "react-helmet": "^6.1.0",
