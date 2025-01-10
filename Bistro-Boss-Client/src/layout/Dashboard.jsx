@@ -9,8 +9,8 @@ import { NavLink, Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   return (
-    <div>
-      <div className="w-64 min-h-screen bg-orange-300 p-5">
+    <div className="flex">
+      <div className="w-1/4 min-h-screen bg-orange-300 p-5">
         <ul className="flex flex-col gap-5">
           <li>
             <NavLink className="flex items-center gap-2" to={"/dashboard/userhome"}>
@@ -65,7 +65,7 @@ const Dashboard = () => {
           </li>
         </ul>
       </div>
-      <div className="">
+      <div className="w-3/4">
         <Outlet></Outlet>
       </div>
     </div>
