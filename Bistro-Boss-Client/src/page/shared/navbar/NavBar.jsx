@@ -53,10 +53,7 @@ const NavBar = () => {
         <Link to={"/order/salad"}>Our Shop</Link>
       </li>
       <li>
-        <Link to={"/dashboard"}>DASHBOARD</Link>
-      </li>
-      <li>
-        <Link to={"/"}>
+        <Link to={"/dashboard"}>
           <button className="btn">
           <TiShoppingCart />
             <div className="badge badge-secondary">+{cart.length}</div>

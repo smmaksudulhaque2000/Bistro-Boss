@@ -3,6 +3,7 @@ import useAuth from "../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import useCart from "../hooks/useCart";
 
 
 const FoodCard = ({ items }) => {
@@ -11,6 +12,7 @@ const FoodCard = ({ items }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const axiosSecure = useAxiosSecure();
+  const [, refetch] = useCart();
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -41,6 +43,7 @@ const FoodCard = ({ items }) => {
         menuId: _id,
         email: user.email,
         name,
+        recipe,
         image,
         price,
       }
@@ -54,6 +57,7 @@ const FoodCard = ({ items }) => {
             showConfirmButton: false,
             timer: 1500
           });
+          refetch();
         }
       })
     } else {
