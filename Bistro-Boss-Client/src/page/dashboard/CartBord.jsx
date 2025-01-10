@@ -1,8 +1,43 @@
 import React from 'react';
+import Swal from 'sweetalert2';
 import useCart from '../../hooks/useCart';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const CartBord = () => {
-    const [cart] = useCart();
+    const [cart, refetch] = useCart();
+    const axiosSecure = useAxiosSecure();
+
+    const handleRemove = async (id) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    axiosSecure.delete(`/carts/${id}`)
+                    .then(res => {
+                        if (res.data.deletedCount > 0) {
+                            refetch();
+                            Swal.fire(
+                                'Deleted!',
+                                'Your item has been deleted.',
+                                'success'
+                            );
+                        }
+                    })
+                    
+                } catch (error) {
+                    console.error('Error removing item:', error);
+                }
+            }
+        });
+    };
+
     const totalPrice = cart.reduce((total, item) => total + item.price, 0);
 
     return (
@@ -32,7 +67,12 @@ const CartBord = () => {
                                 <td className='border border-gray-300 px-4 py-2'>{item.name}</td>
                                 <td className='border border-gray-300 px-4 py-2'>${item.price.toFixed(2)}</td>
                                 <td className='border border-gray-300 px-4 py-2'>
-                                    <button className='btn btn-sm btn-danger'>Remove</button>
+                                    <button 
+                                        className='btn btn-sm btn-danger' 
+                                        onClick={() => handleRemove(item._id)}
+                                    >
+                                        Remove
+                                    </button>
                                 </td>
                             </tr>
                         ))}
