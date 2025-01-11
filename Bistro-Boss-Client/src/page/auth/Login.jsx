@@ -6,6 +6,7 @@ import bg from '../../assets/reservation/wood-grain-pattern-gray1x.png';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../providers/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import SocialGoogle from '../../components/socialLogin/SocialGoogle';
 
 const Login = () => {
   useEffect(() => {
@@ -159,6 +160,10 @@ const Login = () => {
               />
             </div>
           </form>
+          <div>
+          <div className="divider">OR</div>
+            <SocialGoogle></SocialGoogle>
+          </div>
           <div className="text-center mt-4">
             <p className="text-sm">
               New here?{' '}

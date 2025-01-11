@@ -9,6 +9,7 @@ import {
 import { AuthContext } from "../../providers/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import SocialGoogle from "../../components/socialLogin/SocialGoogle";
 
 const SignUp = () => {
   const axiosPublic = useAxiosPublic();
@@ -181,7 +182,12 @@ const SignUp = () => {
             >
               Sign Up
             </button>
+            
           </form>
+          <div>
+          <div className="divider">OR</div>
+            <SocialGoogle></SocialGoogle>
+          </div>
           <p className="text-center text-sm text-gray-500 mt-4">
             Already registered?{" "}
             <Link
