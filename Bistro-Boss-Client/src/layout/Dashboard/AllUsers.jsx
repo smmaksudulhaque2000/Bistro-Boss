@@ -1,9 +1,10 @@
 import React from 'react';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
+
 import { useQuery } from '@tanstack/react-query';
 import { FaUsers } from 'react-icons/fa';
 import { RiDeleteBin2Line } from 'react-icons/ri';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const AllUsers = () => {
     const axiosSecure = useAxiosSecure();
@@ -30,7 +31,6 @@ const AllUsers = () => {
                         axiosSecure.delete(`/users/${id}`)
                         .then(res => {
                             if (res.data.deletedCount > 0) {
-                                
                                 Swal.fire(
                                     'Deleted!',
                                     'Your item has been deleted.',
@@ -79,7 +79,7 @@ const AllUsers = () => {
                                     <button><FaUsers /></button>
                                 </td>
                                 <td className="border border-gray-300 px-4 py-2 text-center">
-                                    <button onClick={() => handleRemove(users._id)}><RiDeleteBin2Line /></button>
+                                    <button onClick={() => handleRemove(user._id)}><RiDeleteBin2Line /></button>
                                 </td>
                             </tr>
                         ))}
