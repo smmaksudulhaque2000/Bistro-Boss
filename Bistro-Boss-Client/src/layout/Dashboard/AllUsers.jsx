@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { useQuery } from '@tanstack/react-query';
 import { FaUsers } from 'react-icons/fa';
 import { RiDeleteBin2Line } from 'react-icons/ri';
@@ -8,7 +7,7 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const AllUsers = () => {
     const axiosSecure = useAxiosSecure();
-    const { data: users = [] } = useQuery({
+    const { refetch, data: users = [] } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
             const res = await axiosSecure.get('/users');
@@ -31,6 +30,7 @@ const AllUsers = () => {
                         axiosSecure.delete(`/users/${id}`)
                         .then(res => {
                             if (res.data.deletedCount > 0) {
+                                refetch();
                                 Swal.fire(
                                     'Deleted!',
                                     'Your item has been deleted.',
