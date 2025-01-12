@@ -1,4 +1,5 @@
 const express = require('express');
+var jwt = require('jsonwebtoken');
 const app = express();
 const cors = require('cors');
 require('dotenv').config();
@@ -31,6 +32,12 @@ async function run() {
     const reviewsCollection = client.db("BistroBossDB").collection("reviews");
     const cartCollection = client.db("BistroBossDB").collection("carts");
     
+    // JWT Related Api
+    app.post('/jwt', async (req, res) => {
+      const user = req.body;
+      const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '12h'})
+      res.send({token})
+    })
 
     app.get('/menu', async(req, res) => {
         const result = await menuCollection.find().toArray();
@@ -63,6 +70,23 @@ async function run() {
       res.send(result);
     })
 
+    // middleware
+    const varifyToken = (req, res, next) => {
+      console.log(req.headers.authorization);
+      if (!req.headers.authorization) {
+        return res.status(401).send({message: 'forbidden access'});
+      }
+      const token = req.headers.authorization.split(' ')[1];
+      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+        if (err) {
+          return res.status(401).send({message: 'forbidden access'});
+        }
+        req.decoded = decoded;
+        next();
+      })
+      // next();
+    }
+
     //User Collection
     app.post('/users', async(req, res) => {
       const user = req.body;
@@ -75,9 +99,21 @@ async function run() {
       res.send(result);
     })
 
-    app.get('/users', async(req, res) => {
+    app.get('/users', varifyToken, async(req, res) => {
       const user = req.body;
       const result = await userCollection.find(user).toArray();
+      res.send(result);
+    })
+
+    app.patch('/users/admin/:id', async(req, res) => {
+      const id = req.params.id;
+      const filter = {_id : new ObjectId(id)};
+      const updatedDoc = {
+        $set: {
+          role: 'admin'
+        }
+      }
+      const result = await userCollection.updateOne(filter, updatedDoc);
       res.send(result);
     })
 
